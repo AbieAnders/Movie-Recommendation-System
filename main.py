@@ -90,16 +90,17 @@ ps = PorterStemmer()
 
 def stemming(text):
     y = []
-    for i in text:
-        y.append(ps.stem(i))
+    words = text.split()
+    for word in words:
+        y.append(ps.stem(word))
     return " ".join(y)
 
-print("----------")
+print("----------------")
 a = stemming("Walking")
-print(a)
+print("Walking ->", a)
+print("----------------")
 
-#new_df['tags'] = new_df['tags'].apply(stemming)
-movies.loc[:, 'tags'] = movies['tags'].apply(stemming)
+new_df['tags'] = new_df['tags'].apply(stemming)
 print(cv.get_feature_names_out())
 
 #In higher dimensions, euclidean distance becomes less reliable so we use cosine distance instead to gauge how close vectors are to each other
