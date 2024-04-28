@@ -5,9 +5,6 @@ import ast
 #Setting the maximum number of columns that are printed(useful for data pre processing)
 pd.set_option('display.max_rows', None)
 pd.set_option('display.max_columns', None)
-#(or)
-#pd.options.display.max_columns = None
-#pd.options.display.max_rows = None
 
 movies = pd.read_csv(r'D:\VsCode\Projects\Movie Recommender System\tmdb_5000_movies.csv')
 credits = pd.read_csv(r'D:\VsCode\Projects\Movie Recommender System\tmdb_5000_credits.csv')
@@ -16,7 +13,6 @@ movies = movies.merge(credits, on ='title')
 
 print(movies.shape)
 print(credits.shape)
-#print(movies['original_language'].value_counts())
 
 #Remove: *budget, homepage, id, original_language, original_title, *popularity, production_companies, production_countries,
 #        *release_date, *revenue, *runtime, *spoken_languages, status, tagline, vote_average, vote_count, movie_id
@@ -25,15 +21,12 @@ movies = movies[['title', 'id', 'genres', 'overview', 'keywords', 'cast', 'crew'
 
 print(movies.info())
 
-#print(movies.isnull().sum())
 movies.dropna(inplace = True)
-#print(movies.isnull().sum())
-#print(movies.duplicated().sum())
 print(movies.iloc[0].genres)
 
 #iloc actually returns string values as the key and value pairs over here, so we need to use the 'ast' library
 
-#The convert functions convert the data from the dictionaries to obtain only the necessary values into a list
+#The convert function converts the data from the dictionaries to obtain only the necessary values and add it into a list
 def convert(obj):
     L = []
     for i in ast.literal_eval(obj):
@@ -115,7 +108,6 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 similarity = cosine_similarity(vectors)
 print(cosine_similarity(vectors).shape)
-#print(similarity[0])
 
 def recommendation(movie):
     try:
@@ -123,11 +115,8 @@ def recommendation(movie):
     except Exception as e:
         print("The movie doesnt exist in the database.") 
         return
-    #print(similarity[index])
-    #return
     distances = sorted(list(enumerate(similarity[index])),reverse=True,key = lambda x: x[1])
     for i in distances[1:6]:
         print(new_df.iloc[i[0]].title)
-        #print(i[0])
+
 recommendation('Bourne')
-#print(recommendation_ab)
